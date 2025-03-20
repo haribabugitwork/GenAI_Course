@@ -1,0 +1,16 @@
+extract_blood_report:
+  description: >
+    Extract medical text from the blood report PDF and structure it into JSON format.
+    Uses LLaMA 3 to analyze, interpret, and provide a structured summary of key test values.
+  expected_output: >
+    A structured JSON file containing extracted patient details, test values, and doctor's remarks.
+  agent: blood_report_analyzer
+
+generate_medical_summary:
+  description: >
+    Convert the structured JSON blood report data into a readable medical report.
+    Summarize key findings and highlight any abnormalities.
+  expected_output: >
+    A well-written medical summary report in Markdown format for doctors and patients.
+  agent: reporting_analyst
+  output_file: medical_report.md

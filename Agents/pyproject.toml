@@ -1,0 +1,23 @@
+[project]
+name = "my_medical_crew"
+version = "0.1.0"
+description = "my_medical_crew using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.105.0,<1.0.0"
+]
+
+[project.scripts]
+my_medical_crew = "my_medical_crew.main:run"
+run_crew = "my_medical_crew.main:run"
+train = "my_medical_crew.main:train"
+replay = "my_medical_crew.main:replay"
+test = "my_medical_crew.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
