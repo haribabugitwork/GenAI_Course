@@ -1,141 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Understanding QLoRA Quantization</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       line-height: 1.6;
-      margin: 2em;
-      background-color: #f9f9f9;
+      margin: 20px auto;
+      max-width: 900px;
+      padding: 20px;
+      background: #f9f9f9;
       color: #333;
     }
     h1, h2, h3 {
-      color: #2c3e50;
+      color: #222;
     }
-    code {
-      background-color: #eee;
-      padding: 0.2em 0.4em;
+    code, pre {
+      background: #eee;
+      padding: 2px 4px;
       border-radius: 4px;
     }
     pre {
-      background-color: #eee;
-      padding: 1em;
-      border-radius: 4px;
+      padding: 10px;
       overflow-x: auto;
     }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 1em;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5em;
-      text-align: left;
-    }
-    th {
-      background-color: #ddd;
+    a {
+      color: #0066cc;
     }
   </style>
 </head>
 <body>
-  <h1>🚀 Understanding QLoRA Quantization &mdash; A Concrete Dive Into Model Compression</h1>
-  <p><strong>By Hari Venkata</strong></p>
+  <h1>Understanding QLoRA Quantization</h1>
+  <p><strong>Author:</strong> Hari Venkata</p>
 
-  <h2>📦 What Is Quantization?</h2>
-  <p>In deep learning, model parameters (weights) are typically stored in <strong>FP32</strong> (32-bit floating point) format. Quantization is the process of converting these weights into <strong>lower-precision representations</strong> &mdash; like <strong>Int8</strong>, <strong>Int4</strong>, or even <strong>Int2</strong> &mdash; to save memory and speed up computation.</p>
+  <h2>Introduction</h2>
+  <p>Quantization is a key technique used in QLoRA to reduce the memory footprint and computational cost of large language models. It works by converting 32-bit floating-point (FP32) numbers into smaller bit-width formats like 8-bit integers (Int8) or 4-bit NormalFloat representations.</p>
 
-  <h2>🎯 Why Quantization?</h2>
-  <pre><code>FP32 (4 bytes):   1B params * 4 = 4 GB
-INT8  (1 byte):   1B params * 1 = 1 GB (75% saved)
-INT4 (0.5 byte):  1B params * 0.5 = 0.5 GB (87.5% saved)</code></pre>
-
-  <h2>🔢 A Concrete Example: FP32 to Int8</h2>
-  <p>Input tensor:</p>
-  <pre><code>X_fp32 = [0.5, -1.0, 0.25, -0.75]</code></pre>
+  <h2>1. FP32 to Int8 Quantization</h2>
+  <p>The simplest form of quantization involves converting a tensor from FP32 to Int8 by rescaling the values. The general steps are:</p>
   <ol>
-    <li><strong>absmax = 1.0</strong></li>
-    <li><strong>Scale (c_fp32) = 127 / absmax = 127</strong></li>
-    <li><strong>Quantized:</strong></li>
+    <li>Find the maximum absolute value in the tensor: <code>absmax(X^FP32)</code></li>
+    <li>Define the quantization constant: <code>c^FP32 = 127 / absmax(X^FP32)</code></li>
+    <li>Multiply and round the original tensor: <code>X^Int8 = round(X^FP32 * c^FP32)</code></li>
   </ol>
-  <pre><code>[0.5 * 127 = 64, -1.0 * 127 = -127, 0.25 * 127 = 32, -0.75 * 127 = -95]</code></pre>
 
-  <h2>⚠️ Problem with Global Quantization</h2>
-  <pre><code>X_fp32 = [0.5, -1.0, 0.25, -0.75, 10.0]
-absmax = 10.0 → c_fp32 = 12.7
-Quantized = [6, -13, 3, -10, 127]</code></pre>
-  <p><strong>Loss of precision</strong> in smaller values due to large outlier.</p>
+  <h3>Concrete Example</h3>
+  <p>Let’s take a tensor:</p>
+  <pre>[0.5, -1.0, 0.25, -0.75, 10]</pre>
+  <p>Step 1: Find <code>absmax = 10</code><br>
+  Step 2: Compute scale <code>c = 127 / 10 = 12.7</code><br>
+  Step 3: Multiply and round:</p>
+  <pre>round([0.5, -1.0, 0.25, -0.75, 10] * 12.7) => [6, -13, 3, -10, 127]</pre>
 
-  <h2>🧐 Solution: Block-wise Quantization</h2>
-  <p>Divide weights into blocks (e.g. 64 params each) and compute a separate scale per block.</p>
+  <h2>2. Issues with Global Quantization</h2>
+  <p>Using a single scale value for all model parameters can be very sensitive to outliers. A single large value can cause the scale to shrink too much, reducing the accuracy of smaller values after rounding.</p>
 
-  <h3>🔍 Block-wise Quantization Example</h3>
-  <pre><code>Block 1 → max = 12.7 → c1 = 10
-Block 2 → max = 3.4 → c2 = 37.35
-Block 3 → max = 7.9 → c3 = 16.08</code></pre>
+  <h2>3. Block-wise Quantization</h2>
+  <p>To overcome outliers skewing the scale, we divide the parameters into blocks (e.g., of size 64) and compute a separate quantization constant for each block.</p>
+  <p>This improves accuracy but increases memory usage since each block’s scale needs to be stored.</p>
 
-  <h2>🚄 Quantizing the Scales Themselves</h2>
-  <p>Quantize scale constants to save even more memory:</p>
-  <pre><code>scales = [10, 37.35, 16.08]
-absmax = 37.35 → scale = 127 / 37.35 = 3.4
-Quantized scales = round([34, 127, 55])</code></pre>
-
-  <p><strong>Bit cost:</strong></p>
+  <h3>How much extra memory?</h3>
   <ul>
-    <li>FP32 scale → 0.5 bits/param</li>
-    <li>Int8 scale → 0.125 bits/param</li>
+    <li>1 FP32 scale per 64 parameters = 0.5 bits per parameter</li>
+    <li>If we quantize the scale values to Int8 = 0.127 bits per parameter</li>
   </ul>
 
-  <h2>🤮 4-bit NormalFloat (NF4) Quantization</h2>
-  <p>QLoRA uses 4-bit NormalFloat format instead of basic integers.</p>
+  <h3>Example of Block Scale Quantization</h3>
+  <pre>
+Block 1: [0.5, 0.75, -1.0] => absmax = 1.0 => scale = 127.0
+Block 2: [5, 7, -10] => absmax = 10 => scale = 12.7
+  </pre>
+
+  <h2>4. 4-bit NormalFloat Quantization</h2>
+  <p>This is a more sophisticated format used in QLoRA that preserves more dynamic range in fewer bits. Instead of uniform rounding, it uses:</p>
   <ul>
-    <li>Encodes 16 values in range [-1, 1]</li>
-    <li>More resolution near 0 (important for LLM weights)</li>
-    <li>Values decoded using lookup tables</li>
+    <li>1 sign bit</li>
+    <li>3 bits for a shared exponent (per block)</li>
+    <li>Several 4-bit mantissas for values</li>
   </ul>
-  <p><strong>Example values:</strong></p>
-  <pre><code>[-1.0, -0.75, -0.5, -0.25, -0.1, -0.05, 0.0, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, ...]</code></pre>
 
-  <h2>🔍 TL;DR</h2>
-  <table>
-    <tr>
-      <th>Method</th>
-      <th>Memory Saved</th>
-      <th>Accuracy</th>
-    </tr>
-    <tr>
-      <td>FP32</td>
-      <td>❌</td>
-      <td>✅</td>
-    </tr>
-    <tr>
-      <td>Global Int8</td>
-      <td>✅✅</td>
-      <td>⚠️ (outliers)</td>
-    </tr>
-    <tr>
-      <td>Block-wise Int8</td>
-      <td>✅</td>
-      <td>✅</td>
-    </tr>
-    <tr>
-      <td>+ Quantized Scales</td>
-      <td>✅✅✅</td>
-      <td>✅</td>
-    </tr>
-    <tr>
-      <td>4-bit NormalFloat (NF4)</td>
-      <td>✅✅✅✅</td>
-      <td>✅✅</td>
-    </tr>
-  </table>
+  <p>This is efficient both for compression and for inference acceleration on certain hardware.</p>
 
-  <h2>📚 Conclusion</h2>
-  <p>QLoRA shows us how smart quantization strategies like block-wise scaling and NF4 can help us compress large models without major accuracy loss &mdash; unlocking the ability to fine-tune LLMs on even 24 GB consumer GPUs.</p>
+  <h2>5. Summary</h2>
+  <ul>
+    <li>Quantization is essential for reducing memory and compute costs.</li>
+    <li>Naive FP32 to Int8 quantization is a good start but sensitive to outliers.</li>
+    <li>Block-wise quantization balances accuracy and memory.</li>
+    <li>Scale quantization further reduces overhead.</li>
+    <li>4-bit NormalFloat offers a powerful trade-off using log-scale quantization and shared exponents.</li>
+  </ul>
 
-  <p>Let me know if you'd like a practical notebook walkthrough. Thanks for reading!</p>
+  <p>As QLoRA shows, you don’t need to sacrifice accuracy to get massive efficiency gains—smart quantization strategies let us have both.</p>
+
+  <p><a href="index.html">&larr; Back to Home</a></p>
 </body>
 </html>
