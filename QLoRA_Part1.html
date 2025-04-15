@@ -1,0 +1,687 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Untitled</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1d65956d-ca9b-8086-b32f-f7c80f199574" class="page sans"><header><h1 class="page-title"></h1><p class="page-description"></p></header><div class="page-body"><h1 id="1d65956d-ca9b-80b6-807d-de285c1a7849" class="">QLoRA: Part1 - Understanding QLoRA Quantization</h1><p id="1d65956d-ca9b-801e-8874-ea80b52a7c2d" class=""><strong>Author:</strong> Hari Venkata</p><h2 id="1d65956d-ca9b-805f-bcbf-e9ceb21bb82a" class="">Introduction</h2><p id="1d65956d-ca9b-8089-9e20-ed4ae667b49a" class="">Quantization is a fundamental concept in QLoRA. Though the term might sound complex, it’s actually quite straightforward. Think of quantization as grouping a continuous range of numbers into fixed-size &quot;buckets.&quot;</p><p id="1d65956d-ca9b-8070-a25c-e5dcada67ae2" class="">Take the range from 0 to 100 — there are countless numbers you can find within it, like 1, 12, 27, 55.3, 83.7823, and so on. Quantization involves rounding or mapping these values to simplified representations. For instance, you could round them to the nearest whole number, turning (1, 12, 27, 55.3, 83.7823) into (1, 12, 27, 55, 83). Alternatively, you might group them into larger intervals, say by tens, resulting in (0, 0, 20, 50, 80). The visual representation below helps illustrate how this mapping works.</p><figure id="1d65956d-ca9b-8013-bdc7-d2ca988e933e" class="image"><a href="Untitled%201d65956dca9b8086b32ff7c80f199574/image.png"><img style="width:709.9921875px" src="Untitled%201d65956dca9b8086b32ff7c80f199574/image.png"/></a></figure><p id="1d65956d-ca9b-809c-9219-d31e912419e9" class="">
+</p><h3 id="1d65956d-ca9b-8053-8342-f53632e6509a" class="">Why Do We Need Quantization?</h3><p id="1d65956d-ca9b-8070-a5ff-de11a01626e9" class="">Quantization helps us store and process numbers using less memory, which is crucial when working with large models. To understand why, let’s quickly revisit how computers store numbers.</p><p id="1d65956d-ca9b-80e3-85d2-d5751c6c6c6d" class="">Computers operate using <strong>binary digits (bits)</strong>—strings of 1s and 0s. For example, to store a number like <code>83.7823</code>, the computer must convert it into binary. One common method is <strong>FP32 (32-bit floating-point format)</strong>, which represents numbers using 32 bits. In this format, <code>83.7823</code> becomes a binary string like:</p><p id="1d65956d-ca9b-8073-89ee-d21f14b7428e" class=""><code>01000010101001111001000010001010</code>.</p><p id="1d65956d-ca9b-8026-82e6-d573f07dc705" class="">Since 32 bits can encode <strong>2³² (~4.29 billion)</strong> different values, FP32 offers high precision. That’s great for accuracy, especially in machine learning tasks where we want to capture fine differences between values.</p><p id="1d65956d-ca9b-8009-bddb-c472d53cdec8" class="">But here’s the tradeoff: <strong>each FP32 number takes 4 bytes of memory</strong> (since 1 byte = 8 bits). So, a model with <strong>10 billion parameters</strong> would require <strong>40 GB of memory</strong> just to store those parameters. And if we want to fine-tune the model with full precision, memory usage can balloon up to <strong>200 GB or more</strong>!</p><p id="1d65956d-ca9b-80ca-9605-d2f8d29f70cd" class="">This creates a challenge for working with large language models (LLMs):</p><blockquote id="1d65956d-ca9b-80b1-8c92-df4c9251566c" class="">We want high precision for accurate training, but we also need to reduce memory usage to make training feasible on limited hardware.</blockquote><p id="1d65956d-ca9b-8048-9080-f934998159e6" class=""><strong>QLoRA</strong> tackles this challenge by introducing quantization techniques that <strong>reduce the memory footprint</strong> while retaining model performance.</p><p id="1d65956d-ca9b-80f8-afb9-fea6355cc8f1" class="">Quantization is a key technique used in QLoRA to reduce the memory footprint and computational cost of large language models. It works by converting 32-bit floating-point (FP32) numbers into smaller bit-width formats like 8-bit integers (Int8) or 4-bit NormalFloat representations.</p><h2 id="1d65956d-ca9b-802d-898f-f1b3ee8ebd1e" class="">1. FP32 to Int8 Quantization</h2><p id="1d65956d-ca9b-80ff-8d83-f1ebe28ffb51" class="">The simplest form of quantization involves converting a tensor from FP32 to Int8 by rescaling the values. The general steps are:</p><ol type="1" id="1d65956d-ca9b-807c-b170-ec4c38287f14" class="numbered-list" start="1"><li>Find the maximum absolute value in the tensor: <code>absmax(X^FP32)</code></li></ol><ol type="1" id="1d65956d-ca9b-8053-8abe-c1d668cf46b0" class="numbered-list" start="2"><li>Define the quantization constant: <code>c^FP32 = 127 / absmax(X^FP32)</code></li></ol><ol type="1" id="1d65956d-ca9b-80a5-9d1f-c158132c9718" class="numbered-list" start="3"><li>Multiply and round the original tensor: <code>X^Int8 = round(X^FP32 * c^FP32)</code></li></ol><h3 id="1d65956d-ca9b-805e-8104-ecdf44b98d23" class="">Concrete Example</h3><p id="1d65956d-ca9b-8019-a4a8-f8ab24a91b2c" class="">Let’s take a tensor:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d65956d-ca9b-80b8-bf9b-e6a4da878926" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">[0.5, -1.0, 0.25, -0.75, 10]</code></pre><p id="1d65956d-ca9b-8028-896a-d6330a0c7f69" class="">Step 1: Find <code>absmax = 10</code></p><p id="1d65956d-ca9b-8075-a3f7-c7bde0aa9485" class="">Step 2: Compute scale <code>c = 127 / 10 = 12.7</code></p><p id="1d65956d-ca9b-800e-996b-d7ff8cd29f8d" class="">Step 3: Multiply and round:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d65956d-ca9b-8068-801d-f424ae1bfd52" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">round([0.5, -1.0, 0.25, -0.75, 10] * 12.7) =&gt; [6, -13, 3, -10, 127]</code></pre><h2 id="1d65956d-ca9b-807f-b442-e3cbb9c2200d" class="">2. Issues with Global Quantization</h2><p id="1d65956d-ca9b-8011-8ff6-e692462b36bc" class="">Using a single scale value for all model parameters can be very sensitive to outliers. A single large value can cause the scale to shrink too much, reducing the accuracy of smaller values after rounding.</p><h3 id="1d65956d-ca9b-8042-bbe7-ff2bec7ccc2c" class="">Problem with a Single Scale Value — A Concrete Example</h3><p id="1d65956d-ca9b-80db-9af4-d8bb17299a56" class="">Imagine we have a small set of model parameters in 32-bit floating-point format:</p><p id="1d65956d-ca9b-8073-9785-cc13804e8acb" class="">X = [0.3, -0.6, 0.9, -1.2, 0.1, 8.5]</p><p id="1d65956d-ca9b-8069-9ba4-eaeac8c85c95" class="">We want to quantize these values into <strong>int8</strong>, which means we can only use values between <strong>-127 and 127</strong>. To do this, we need to scale all values in <code>X</code> by dividing them with the <strong>maximum absolute value</strong>, which in this case is <code>8.5</code>.</p><h3 id="1d65956d-ca9b-803c-b891-ea7e61c22221" class="">Step 1: Compute the scale</h3><p id="1d65956d-ca9b-8067-b25e-e81320ad0eef" class="">scale = 127 / absmax(X) = 127 / 8.5 ≈ 14.94</p><h3 id="1d65956d-ca9b-8047-9ea5-e81ba5a4aeda" class="">Step 2: Apply scale and round the values</h3><p id="1d65956d-ca9b-8085-aa1f-cffae112b134" class="">quantized_X = round([0.3, -0.6, 0.9, -1.2, 0.1, 8.5] * 14.94)<br/>≈ [4, -9, 13, -18, 1, 127]<br/></p><p id="1d65956d-ca9b-8061-9e23-df63c073a85c" class="">Notice what happens:</p><ul id="1d65956d-ca9b-80e9-a86f-e7b15d54f4db" class="bulleted-list"><li style="list-style-type:disc">The <strong>large value (8.5)</strong> becomes <strong>127</strong>, the max allowed.</li></ul><ul id="1d65956d-ca9b-80d4-825c-dc824c8a33d4" class="bulleted-list"><li style="list-style-type:disc">But the <strong>smaller values</strong> get pushed closer to zero and <strong>lose precision</strong>:<ul id="1d65956d-ca9b-807e-9689-fe3f91fbe254" class="bulleted-list"><li style="list-style-type:circle"><code>0.1</code> becomes <code>1</code></li></ul><ul id="1d65956d-ca9b-806b-94fd-eb8b80e5492a" class="bulleted-list"><li style="list-style-type:circle"><code>0.6</code> becomes <code>9</code></li></ul><ul id="1d65956d-ca9b-8025-8b9f-edf4aae2462d" class="bulleted-list"><li style="list-style-type:circle"><code>0.3</code> becomes <code>4</code></li></ul></li></ul><p id="1d65956d-ca9b-80fb-992b-fc89f21c936e" class="">So, the <strong>relative importance and spacing</strong> between the smaller values is <strong>compressed</strong>—they’re not well preserved.</p><h2 id="1d65956d-ca9b-80a1-8dcf-f064a53b19e4" class="">3. Block-wise Quantization</h2><p id="1d65956d-ca9b-8084-90c0-c67faa332c31" class="">To overcome outliers skewing the scale, we divide the parameters into blocks (e.g., of size 64) and compute a separate quantization constant for each block.</p><p id="1d65956d-ca9b-80d6-b355-ed4596b5032e" class="">This improves accuracy but increases memory usage since each block’s scale needs to be stored.</p><h3 id="1d65956d-ca9b-80a9-a60c-f5f80edf5f0c" class="">How much extra memory?</h3><ul id="1d65956d-ca9b-8086-88f0-f61292aee822" class="bulleted-list"><li style="list-style-type:disc">1 FP32 scale per 64 parameters = 0.5 bits per parameter</li></ul><ul id="1d65956d-ca9b-8025-9df4-d15e2d959917" class="bulleted-list"><li style="list-style-type:disc">If we quantize the scale values to Int8 = 0.127 bits per parameter</li></ul><h3 id="1d65956d-ca9b-8023-a946-cf20e2c49586" class="">Example of Block Scale Quantization</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d65956d-ca9b-803c-a527-c003dab8e6e4" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Block 1: [0.5, 0.75, -1.0] =&gt; absmax = 1.0 =&gt; scale = 127.0
+Block 2: [5, 7, -10] =&gt; absmax = 10 =&gt; scale = 12.7
+</code></pre><h2 id="1d65956d-ca9b-8055-82d0-e9bdee4e2b07" class="">4. 4-bit NormalFloat Quantization</h2><p id="1d65956d-ca9b-8090-bae1-f0708ea96e53" class="">This is a more sophisticated format used in QLoRA that preserves more dynamic range in fewer bits. Instead of uniform rounding, it uses:</p><ul id="1d65956d-ca9b-80f4-8052-d8a35f5e98d5" class="bulleted-list"><li style="list-style-type:disc">1 sign bit</li></ul><ul id="1d65956d-ca9b-80fd-916b-f603cb3b5d0a" class="bulleted-list"><li style="list-style-type:disc">3 bits for a shared exponent (per block)</li></ul><ul id="1d65956d-ca9b-8054-b437-f0a32f4c1ddd" class="bulleted-list"><li style="list-style-type:disc">Several 4-bit mantissas for values</li></ul><p id="1d65956d-ca9b-80d5-b313-d87cbba2ab92" class="">This is efficient both for compression and for inference acceleration on certain hardware.</p><p id="1d65956d-ca9b-80c0-8aca-ebe5cecc3816" class=""><strong>Pushing Quantization to the Limit with 4-bit NormalFloat</strong></p><p id="1d65956d-ca9b-80cc-805d-cfa036c421c9" class="">The first key innovation in QLoRA involves taking quantization to its practical extreme. Instead of the commonly used 16-bit data type (half-precision floating point) for storing language model parameters, QLoRA adopts a much more compact format known as <strong>4-bit NormalFloat</strong>.</p><p id="1d65956d-ca9b-803e-acff-c2f8be19c19c" class="">As the name implies, this format encodes numbers using just <strong>4 bits</strong>, meaning it can only represent <strong>2⁴ = 16 distinct values</strong>. While that may seem extremely limiting, 4-bit NormalFloat uses a clever technique to make the most of this tiny information budget.</p><p id="1d65956d-ca9b-8002-a254-f969813e53f6" class="">Earlier, we discussed the naive approach to quantization — dividing a range of numbers into <strong>equally spaced</strong> intervals. In contrast, 4-bit NormalFloat opts for <strong>equally sized buckets</strong> in the logarithmic scale, which allows it to capture a wider dynamic range more efficiently. This distinction between the two methods — equal spacing vs equal size — is visualized in the figure below.</p><figure id="1d65956d-ca9b-8028-a6b2-ebfc5e44edcc" class="image"><a href="Untitled%201d65956dca9b8086b32ff7c80f199574/image_1.png"><img style="width:632px" src="Untitled%201d65956dca9b8086b32ff7c80f199574/image%201.png"/></a></figure><h2 id="1d65956d-ca9b-8091-845d-f3d0c2c3711f" class="">5. Summary</h2><ul id="1d65956d-ca9b-8040-9eef-c5446820f9e9" class="bulleted-list"><li style="list-style-type:disc">Quantization is essential for reducing memory and compute costs.</li></ul><ul id="1d65956d-ca9b-8011-865c-d887d51a9558" class="bulleted-list"><li style="list-style-type:disc">Naive FP32 to Int8 quantization is a good start but sensitive to outliers.</li></ul><ul id="1d65956d-ca9b-8009-bf42-e1c7a38bf135" class="bulleted-list"><li style="list-style-type:disc">Block-wise quantization balances accuracy and memory.</li></ul><ul id="1d65956d-ca9b-80e2-b14c-c7ef07118415" class="bulleted-list"><li style="list-style-type:disc">Scale quantization further reduces overhead.</li></ul><ul id="1d65956d-ca9b-80af-8c6c-deffbf30624f" class="bulleted-list"><li style="list-style-type:disc">4-bit NormalFloat offers a powerful trade-off using log-scale quantization and shared exponents.</li></ul><p id="1d65956d-ca9b-80e7-b8c9-e01874d2a8d5" class="">As QLoRA shows, you don’t need to sacrifice accuracy to get massive efficiency gains—smart quantization strategies let us have both.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
