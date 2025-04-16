@@ -1,0 +1,751 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Knowledge Distillation: Finance Domain</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1d75956d-ca9b-80f0-8241-e1c1baadca99" class="page sans"><header><h1 class="page-title">Knowledge Distillation: Finance Domain</h1><p class="page-description"></p></header><div class="page-body"><p id="1d75956d-ca9b-80e1-b0bc-d782f2260f34" class="">Author : Hari Venkata</p><h2 id="1d75956d-ca9b-8000-b689-da3b69d87a05" class="">Understanding Proprietary LLMs: Capabilities and Constraints</h2><p id="1d75956d-ca9b-8025-99d7-ff90dfc5b017" class="">Proprietary Large Language Models (LLMs) like GPT-3.5, GPT-4, Gemini, and Claude have dramatically advanced the field of natural language processing, enabling human-like text generation and powerful problem-solving capabilities. These massive models demonstrate emergent abilities — skills that go beyond their initial training — making them highly versatile across a wide range of tasks. Their influence spans creative content generation, complex reasoning, and more, signaling a transformative shift in how we interact with technology. However, despite their impressive performance, proprietary LLMs come with notable limitations. High costs, restricted access, and data privacy concerns make them less practical for individuals or smaller organizations. Additionally, their general-purpose design might not suit specific, niche applications, highlighting the growing need for more accessible, customizable, and secure alternatives.</p><p id="1d75956d-ca9b-800b-884e-ef4ee450ee05" class="">
+</p><h2 id="1d75956d-ca9b-804f-af49-c53caa459c6b" class="">Open-Source Models Like LLaMA and Mistral: Powerful, But Not Without Limits</h2><p id="1d75956d-ca9b-803e-972e-f58045652cd5" class="">Open-source LLMs like LLaMA and Mistral offer significant advantages over proprietary models, primarily due to their accessibility, adaptability, and community-driven development. Free from licensing restrictions and high usage costs, these models promote collaboration, innovation, and customized solutions, making them ideal for research and niche applications. However, their relatively smaller size and limited pretraining investment often result in lower performance on complex, real-world tasks compared to models like GPT-4. They may also lack the depth and fine-tuning necessary to excel in specialized domains.</p><p id="1d75956d-ca9b-80b6-abbe-f8c274c422be" class="">
+</p><h2 id="1d75956d-ca9b-8097-960e-ea1fa5d61906" class="">Bridging the Gap: Knowledge Distillation for Smarter Open-Source LLMs</h2><p id="1d75956d-ca9b-8000-ad8f-c561d39a2bf7" class="">To address this performance gap, <strong>knowledge distillation (KD)</strong> has emerged as a powerful technique. KD allows open-source models (students) to learn from the strengths of proprietary LLMs (teachers) by mimicking their behavior. This not only boosts the efficiency of open-source models but also enhances their capabilities. Newer approaches like data augmentation-based KD and self-distillation — where open-source models improve by learning from their own stronger versions — are pushing this idea further. These strategies help compress and refine LLMs, making them lighter and more effective without heavily compromising performance.</p><p id="1d75956d-ca9b-8048-9a8f-ea17984a85fe" class="">
+</p><h2 id="1d75956d-ca9b-805b-9c05-f2f0af09df89" class="">LLMs in the Financial Landscape</h2><p id="1d75956d-ca9b-80ed-b522-d30582b7c063" class="">The integration of Large Language Models (LLMs) into the financial domain is revolutionizing how institutions analyze data, make strategic decisions, and engage with customers. LLMs excel at understanding and extracting insights from complex financial documents, predicting market dynamics, and streamlining risk assessments. By leveraging their ability to process massive volumes of unstructured data — including news articles, earnings reports, and live market feeds — these models unlock patterns and trends that were previously difficult or even impossible to detect. This leads to faster, more accurate decision-making and opens the door to smarter, data-driven financial planning.</p><p id="1d75956d-ca9b-8051-8a6e-f5543fedfa09" class="">Beyond analytics, LLMs are also transforming customer experience in finance. They enable personalized financial advice, automate customer support, and power intelligent chatbots capable of handling sophisticated queries. These capabilities not only enhance service quality but also improve operational efficiency, reduce costs, and support better compliance and risk management. While much of the current work in financial AI focuses on fine-tuning or continually pretraining general-purpose LLMs on financial data, the use of <strong>knowledge distillation</strong> from proprietary LLMs remains relatively unexplored. This presents an exciting opportunity to create efficient, domain-specialized models without compromising performance — a crucial step toward scaling LLMs across the financial industry.</p><p id="1d75956d-ca9b-80bf-a391-d6674a21d526" class="">
+</p><h2 id="1d75956d-ca9b-80c8-b5a1-c6d83c0bd7f0" class="">What is <strong>Knowledge Distillation?</strong></h2><p id="1d75956d-ca9b-80a4-b2cd-f6ed405cc220" class=""><strong>Knowledge Distillation (KD)</strong> is a model compression technique that transfers knowledge from a large, complex model (or ensemble) to a smaller, more efficient model suitable for real-world deployment. Originally demonstrated in 2006 and later formalized by Hinton et al., KD has become especially important with the rise of deep learning, enabling smaller models to retain much of the performance of larger ones. It&#x27;s particularly useful for deploying neural networks on resource-constrained devices like mobile or edge systems.</p><p id="1d75956d-ca9b-804d-af30-d994df587c7e" class="">
+</p><figure id="1d75956d-ca9b-808f-b39d-c8eba2410f7d" class="image"><a href="Knowledge%20Distillation%20Finance%20Domain%201d75956dca9b80f08241e1c1baadca99/image.png"><img style="width:709.9921875px" src="Knowledge%20Distillation%20Finance%20Domain%201d75956dca9b80f08241e1c1baadca99/image.png"/></a></figure><p id="1d75956d-ca9b-805e-a39e-d6123a8daba2" class="">
+</p><h3 id="1d75956d-ca9b-80b9-a1bd-ebc9424388c6" class="">Knowledge Distillation in NLP</h3><p id="1d75956d-ca9b-8039-8839-cfedd71a00bd" class="">Knowledge distillation plays a crucial role in Natural Language Processing (NLP), especially given the scale of modern deep learning models. For instance, cutting-edge language models like GPT-3 have around <strong>175 billion parameters</strong>, which is vastly larger than earlier models such as BERT-base, which has <strong>110 million parameters</strong>.</p><p id="1d75956d-ca9b-805f-9768-ca553e5a6d26" class="">Due to the computational demands of such large models, knowledge distillation is widely used in NLP to create <strong>smaller, faster, and more efficient models</strong>. These compact models are significantly easier to train and deploy, making them ideal for practical applications with limited resources. Besides language modeling, KD is used across a range of NLP tasks including:</p><ul id="1d75956d-ca9b-80fb-8762-c3ee2d606011" class="bulleted-list"><li style="list-style-type:disc">Neural Machine Translation</li></ul><ul id="1d75956d-ca9b-805b-b63c-dd0c57b93172" class="bulleted-list"><li style="list-style-type:disc">Text Generation</li></ul><ul id="1d75956d-ca9b-8063-b69a-cf6ccc2e2711" class="bulleted-list"><li style="list-style-type:disc">Question Answering</li></ul><ul id="1d75956d-ca9b-80e3-a70c-f07053de03ae" class="bulleted-list"><li style="list-style-type:disc">Document Retrieval</li></ul><ul id="1d75956d-ca9b-8017-8223-cbdb3477a0d1" class="bulleted-list"><li style="list-style-type:disc">Text Recognition</li></ul><p id="1d75956d-ca9b-80e5-8be0-c7147501b414" class="">Distillation techniques also enable effective multilingual NLP solutions by allowing student models to learn and share knowledge from powerful multilingual teacher models.</p><p id="1d75956d-ca9b-800a-a96f-fde74ea0ef05" class="">
+</p><h3 id="1d75956d-ca9b-806a-8af2-d5dfd66dc4df" class="">Case Study: DistilBERT</h3><p id="1d75956d-ca9b-8015-b343-ee6980b26fbe" class="">DistilBERT, developed by Hugging Face, is a leaner version of BERT — 40% smaller (66M vs. 110M parameters), 60% faster, and retains about 97% of BERT’s performance on benchmarks like GLUE. It achieves this via a customized training process that uses a triplet loss function, combining traditional language modeling loss, distillation loss, and cosine-distance loss. Notably, DistilBERT shares the same architecture as BERT but is more efficient for deployment on limited-resource environments</p><p id="1d75956d-ca9b-8047-8ddd-e80075564b09" class="">
+</p><h2 id="1d75956d-ca9b-80d8-b37f-e51942619c79" class="">KD : Training Strategy</h2><figure id="1d75956d-ca9b-8047-b497-dd45729af9f0" class="image"><a href="Knowledge%20Distillation%20Finance%20Domain%201d75956dca9b80f08241e1c1baadca99/image%201.png"><img style="width:975px" src="Knowledge%20Distillation%20Finance%20Domain%201d75956dca9b80f08241e1c1baadca99/image%201.png"/></a></figure><p id="1d75956d-ca9b-8048-9de0-ef39c8dfcea5" class="">
+</p><p id="1d75956d-ca9b-801a-8623-fc41ed0b5cd5" class="">Knowledge distillation from teacher models can be performed in several ways: through the responses (or logits) of the teacher model, known as <strong>response-based knowledge distillation</strong>; by leveraging the weights and activations of the teacher model, referred to as <strong>feature-based knowledge distillation</strong>; or by utilizing the relationships between model parameters, which is known as <strong>relationship-based knowledge distillation</strong>. This blog will focus on applying response-based knowledge distillation in large language models. The image below illustrates knowledge distillation using response-based knowledge from a larger teacher model.</p><h3 id="1d75956d-ca9b-8018-9ca2-e8d4d27a8927" class="">KD Implementation with PyTorch:</h3><h3 id="1d75956d-ca9b-8054-8d32-d0e92e4ae021" class=""><strong>1. Install Required Libraries</strong></h3><p id="1d75956d-ca9b-80b7-9dd1-fa64b58d6bb5" class="">Before diving into the code, we first need to install the required libraries. These include <code>transformers</code>, <code>datasets</code>, and <code>torch</code>. This setup allows us to work with pre-trained models and datasets seamlessly.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-80a6-9fcb-cad29d6394f9" class="code"><code class="language-Python">pip install transformers datasets torch</code></pre><h3 id="1d75956d-ca9b-80ce-8715-d4e68dbb4c9f" class=""><strong>2. Import Required Libraries</strong></h3><p id="1d75956d-ca9b-804f-a7a6-f5c10fbc0d43" class="">In this section, we import the necessary libraries for our task.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-8060-814b-ff24f138b3aa" class="code"><code class="language-Python">import torch
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments
+from datasets import load_dataset</code></pre><ul id="1d75956d-ca9b-80fc-8a6a-c147602ac43a" class="bulleted-list"><li style="list-style-type:disc"><code>torch</code>: For working with PyTorch models and tensors.</li></ul><ul id="1d75956d-ca9b-8087-92ed-edba02e696eb" class="bulleted-list"><li style="list-style-type:disc"><code>transformers</code>: To load pre-trained models like BERT and DistilBERT from Hugging Face.</li></ul><ul id="1d75956d-ca9b-805b-84e0-eedac75e3047" class="bulleted-list"><li style="list-style-type:disc"><code>datasets</code>: To easily load datasets like GLUE or others for fine-tuning.</li></ul><ul id="1d75956d-ca9b-8052-b2da-e5b91571693c" class="bulleted-list"><li style="list-style-type:disc"><code>Trainer</code> and <code>TrainingArguments</code>: These are used to train the models with Hugging Face’s training loop.</li></ul><h3 id="1d75956d-ca9b-80e9-b5ce-d9e1ee8f65b0" class=""><strong>3. Load Teacher and Student Models</strong></h3><p id="1d75956d-ca9b-80f8-affa-ef01edea4cc5" class="">Here, we load the teacher (larger) and student (smaller) models from Hugging Face&#x27;s model hub.</p><p id="1d75956d-ca9b-8094-886e-fdd4caaac809" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-80f0-a37a-d6cfbe169c78" class="code"><code class="language-Python">teacher_model_name = &quot;bert-large-uncased&quot;
+student_model_name = &quot;distilbert-base-uncased&quot;</code></pre><p id="1d75956d-ca9b-8046-8184-ff12b9c97898" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-8011-9d9b-d92a9ffb5e3f" class="code"><code class="language-Python"># Load teacher and student models
+teacher_model = AutoModelForSequenceClassification.from_pretrained(teacher_model_name, num_labels=2)
+student_model = AutoModelForSequenceClassification.from_pretrained(student_model_name, num_labels=2)</code></pre><ul id="1d75956d-ca9b-8022-9a98-d6a688035063" class="bulleted-list"><li style="list-style-type:disc"><strong>Teacher Model</strong>: We use a large pre-trained model (<code>bert-large-uncased</code>) as the teacher model.</li></ul><ul id="1d75956d-ca9b-8050-843e-e71be7229bf9" class="bulleted-list"><li style="list-style-type:disc"><strong>Student Model</strong>: We use a smaller pre-trained model (<code>distilbert-base-uncased</code>) as the student model.</li></ul><p id="1d75956d-ca9b-80ae-8fca-d340a5b7e3bd" class="">The idea is to transfer knowledge from the teacher to the student using knowledge distillation.</p><h3 id="1d75956d-ca9b-8037-b463-edce39ccc98c" class=""><strong>4. Load Tokenizer and Dataset</strong></h3><p id="1d75956d-ca9b-8064-b78a-f390653965da" class="">Here, we load a tokenizer to convert text data into tokens, and then load the dataset we will use for training. We use the SST-2 dataset for sentiment analysis from the GLUE benchmark.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-805e-9898-efde005879c0" class="code"><code class="language-Python">tokenizer = AutoTokenizer.from_pretrained(student_model_name)
+
+# Load dataset for training (e.g., SST-2 for sentiment analysis)
+dataset = load_dataset(&quot;glue&quot;, &quot;sst2&quot;)
+
+# Tokenize dataset
+
+def tokenize_function(examples):
+	return tokenizer(examples[&#x27;sentence&#x27;], padding=True, truncation=True)
+
+tokenized_datasets = dataset.map(tokenize_function, batched=True)</code></pre><ul id="1d75956d-ca9b-80f4-b223-d5d0caae521c" class="bulleted-list"><li style="list-style-type:disc"><strong>Tokenizer</strong>: We use the student model&#x27;s tokenizer to process the text.</li></ul><ul id="1d75956d-ca9b-80c4-a4e6-eb0c1bc0a039" class="bulleted-list"><li style="list-style-type:disc"><strong>Dataset</strong>: We load the <strong>SST-2</strong> dataset, which contains sentences labeled as positive or negative sentiment.</li></ul><ul id="1d75956d-ca9b-805d-b3c6-f7e54e49a606" class="bulleted-list"><li style="list-style-type:disc"><strong>Tokenization</strong>: We define a function to tokenize the sentences and apply padding and truncation to ensure consistent input size.</li></ul><h3 id="1d75956d-ca9b-805e-ba98-e020c74cc109" class=""><strong>5. Define the Distillation Loss Function</strong></h3><p id="1d75956d-ca9b-80f7-a467-f4b0ee3ee5db" class="">Here, we define the loss function used for knowledge distillation. The distillation loss compares the logits (predictions) of the student and teacher models.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-80b6-b7cf-ff36d655bae2" class="code"><code class="language-Python">def distillation_loss(student_logits, teacher_logits, temperature=2.0):
+&quot;&quot;&quot;
+Knowledge distillation loss using the logits (response-based).
+&quot;&quot;&quot;
+	# Softmax temperature scaling
+	student_probs = torch.nn.functional.softmax(student_logits / temperature, dim=-1)
+	teacher_probs = torch.nn.functional.softmax(teacher_logits / temperature, dim=-1)
+	# Cross-entropy loss between student and teacher&#x27;s softmaxed logits
+	loss = torch.nn.functional.kl_div(student_probs.log(), teacher_probs, reduction=&#x27;batchmean&#x27;)
+	return loss</code></pre><ul id="1d75956d-ca9b-8059-adce-e36feeeede73" class="bulleted-list"><li style="list-style-type:disc"><strong>Temperature Scaling</strong>: We scale the logits using a temperature factor to soften the probabilities. This helps the student model learn from the teacher model’s softer predictions.</li></ul><ul id="1d75956d-ca9b-8086-b3db-f39e53d83631" class="bulleted-list"><li style="list-style-type:disc"><strong>KL Divergence</strong>: We compute the Kullback-Leibler divergence between the student’s and teacher’s predicted probabilities. This is the distillation loss.</li></ul><h3 id="1d75956d-ca9b-8061-99dc-ed4284e0ddce" class=""><strong>6. Custom Trainer Class for Knowledge Distillation</strong></h3><p id="1d75956d-ca9b-804c-8118-d680608b37f0" class="">In this section, we define a custom <code>Trainer</code> class that computes the distillation loss instead of the default cross-entropy loss. This allows the student model to learn from the teacher model using the distillation approach.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-80b0-80d8-ede1e92c4d1b" class="code"><code class="language-Python">class KnowledgeDistillationTrainer(Trainer):
+def compute_loss(self, model, inputs, return_outputs=False):
+&quot;&quot;&quot;
+Override compute_loss to use teacher model for distillation loss.
+&quot;&quot;&quot;
+		# Get teacher&#x27;s logits
+		with torch.no_grad():
+		teacher_logits = teacher_model(**inputs).logits
+		# Get student model&#x27;s logits
+    student_logits = model(**inputs).logits
+
+    # Compute distillation loss
+    loss = distillation_loss(student_logits, teacher_logits)
+
+    return (loss, None) if not return_outputs else (loss, student_logits)</code></pre><ul id="1d75956d-ca9b-80fa-a43e-d5df715780fb" class="bulleted-list"><li style="list-style-type:disc"><strong>Override </strong><code><strong>compute_loss</strong></code>: We override the <code>compute_loss</code> method in the <code>Trainer</code> class to calculate the distillation loss instead of the default loss.</li></ul><ul id="1d75956d-ca9b-8081-9aac-e2af13b84198" class="bulleted-list"><li style="list-style-type:disc"><strong>Teacher’s Logits</strong>: The teacher model is used to generate logits (predictions), which are then compared with the student model’s logits.</li></ul><h3 id="1d75956d-ca9b-80a1-adad-ec550186e075" class=""><strong>7. Set Training Arguments</strong></h3><p id="1d75956d-ca9b-80ba-b30a-d6427b37794e" class="">Here, we define the training parameters such as learning rate, batch size, and the number of epochs for training.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-801d-8bc1-fc87dafaa607" class="code"><code class="language-Python">training_args = TrainingArguments(
+output_dir=&quot;./results&quot;,          # output directory
+evaluation_strategy=&quot;epoch&quot;,     # evaluation strategy to adopt during training
+learning_rate=2e-5,              # learning rate
+per_device_train_batch_size=8,   # batch size for training
+per_device_eval_batch_size=16,   # batch size for evaluation
+num_train_epochs=3,              # number of training epochs
+weight_decay=0.01,               # strength of weight decay
+)</code></pre><ul id="1d75956d-ca9b-80c4-9f2c-d311a9eb57f3" class="bulleted-list"><li style="list-style-type:disc"><code><strong>output_dir</strong></code>: Directory to save the trained model and logs.</li></ul><ul id="1d75956d-ca9b-8070-8952-cb393877d407" class="bulleted-list"><li style="list-style-type:disc"><code><strong>evaluation_strategy</strong></code>: Defines how often to evaluate the model during training. Here, it&#x27;s set to evaluate every epoch.</li></ul><ul id="1d75956d-ca9b-80a4-a125-c3ed6e274deb" class="bulleted-list"><li style="list-style-type:disc"><code><strong>learning_rate</strong></code>: The learning rate for the optimizer.</li></ul><ul id="1d75956d-ca9b-80ff-9543-ddafc9827f04" class="bulleted-list"><li style="list-style-type:disc"><code><strong>batch_size</strong></code>: Batch size for training and evaluation.</li></ul><ul id="1d75956d-ca9b-80a6-9d70-ee9e06be32fb" class="bulleted-list"><li style="list-style-type:disc"><code><strong>num_train_epochs</strong></code>: The number of times the model will see the entire training dataset.</li></ul><ul id="1d75956d-ca9b-809c-940a-e1c2fb41b84f" class="bulleted-list"><li style="list-style-type:disc"><code><strong>weight_decay</strong></code>: A regularization term to prevent overfitting.</li></ul><h3 id="1d75956d-ca9b-8033-8d0f-c562e0297f81" class=""><strong>8. Initialize and Train the Model</strong></h3><p id="1d75956d-ca9b-8084-998b-df22cdb8e457" class="">Finally, we initialize the custom trainer and start training the student model using the distillation process.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d75956d-ca9b-80cd-a623-dc7867b284d1" class="code"><code class="language-Python">trainer = KnowledgeDistillationTrainer(
+model=student_model,
+args=training_args,
+train_dataset=tokenized_datasets[&quot;train&quot;],
+eval_dataset=tokenized_datasets[&quot;validation&quot;],
+tokenizer=tokenizer,
+)
+
+# Train the student model using the KD approach
+
+trainer.train()</code></pre><ul id="1d75956d-ca9b-809d-afb5-f3ff7c48aaee" class="bulleted-list"><li style="list-style-type:disc"><strong>Custom Trainer</strong>: We pass our custom <code>KnowledgeDistillationTrainer</code> with the required arguments.</li></ul><ul id="1d75956d-ca9b-80fe-b052-e58ca9697776" class="bulleted-list"><li style="list-style-type:disc"><strong>Training</strong>: The <code>trainer.train()</code> method starts the training process. During training, the student model will learn from the teacher model’s logits using the distillation loss.</li></ul><h2 id="1d75956d-ca9b-8065-ab55-cbd607da7cd8" class=""><strong>Conclusion</strong></h2><p id="1d75956d-ca9b-8077-b335-c128619f6482" class="">By splitting the code into smaller, manageable chunks, we can see how knowledge distillation helps in transferring knowledge from a larger model (teacher) to a smaller model (student). This process allows the student model to perform similarly to the teacher model, with reduced size and computational cost, making it suitable for deployment in resource-constrained environments.</p><p id="1d75956d-ca9b-801d-9163-dd2107e66a63" class="">In this example, we used <strong>DistilBERT</strong> as a student model and a larger <strong>BERT</strong> model as the teacher, fine-tuning them. The knowledge distillation technique used here is response-based, where the logits (predictions) of the teacher model are used to guide the student model’s learning process.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
