@@ -1,0 +1,735 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Creating a Real-Time AI News Agent Using Agno and Groq with uv</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1e4937b3-f3d2-80cd-9c02-f8e3ae6dcf71" class="page sans"><header><h1 class="page-title">Creating a Real-Time AI News Agent Using Agno and Groq with uv</h1><p class="page-description"></p></header><div class="page-body"><p id="1e4937b3-f3d2-8059-990d-ff8c6eff4176" class="">Learn how to build an AI agent that finds and narrates real-time web stories with personality! This guide shows you how to create a <strong>sports news reporter</strong> using the <strong>Agno agentic framework</strong>, <strong>Groq LLM</strong>, and <strong>DuckDuckGo search</strong>—all neatly organized with <code><a href="https://github.com/astral-sh/uv">uv</a></code></p><p id="1e4937b3-f3d2-80f2-8f30-c624610a565b" class="">You can access the complete setup and code for this project on my <a href="https://github.com/haribabugitwork/GenAI_Course/tree/main/Agno_Groq">GitHub repository</a>. Follow the instructions there to set up, test, and run the LLM-powered agentic app with Groq and Agno.</p><h2 id="1e4937b3-f3d2-8071-90d1-d9e6597ff1a6" class=""><strong><a href="https://console.groq.com/docs/agno#agno--groq-lightning-fast-agents">Agno + Groq: Lightning Fast Agents</a></strong></h2><p id="1e4937b3-f3d2-8068-810e-e884bbd37f1d" class=""><a href="https://github.com/agno-agi/agno">Agno</a> is a lightweight framework for building multi-modal Agents. Its easy to use, extremely fast and supports multi-modal inputs and outputs.</p><p id="1e4937b3-f3d2-8069-b80b-e3c19a898af6" class="">With Groq &amp; Agno, you can build:</p><ul id="1e4937b3-f3d2-8058-a023-f89f86f140cb" class="bulleted-list"><li style="list-style-type:disc"><strong>Agentic RAG</strong>: Agents that can search different knowledge stores for RAG or dynamic few-shot learning.</li></ul><ul id="1e4937b3-f3d2-802f-acf9-d5e1202534b3" class="bulleted-list"><li style="list-style-type:disc"><strong>Image Agents</strong>: Agents that can understand images and make tool calls accordingly.</li></ul><ul id="1e4937b3-f3d2-80fa-b0e0-dea7f9c3feb3" class="bulleted-list"><li style="list-style-type:disc"><strong>Reasoning Agents</strong>: Agents that can reason using a reasoning model, then generate a result using another model.</li></ul><ul id="1e4937b3-f3d2-80a5-b7c9-c1bcc28ce98a" class="bulleted-list"><li style="list-style-type:disc"><strong>Structured Outputs</strong>: Agents that can generate pydantic objects adhering to a schema.</li></ul><p id="1e4937b3-f3d2-8095-9a56-e6f44a3e6216" class="">
+</p><p id="1e4937b3-f3d2-8016-a1b0-eb27bbfd3892" class="">In this blog, we&#x27;ll explore how to create an Agentic RAG system by combining Groq&#x27;s language model with real-time web search capabilities—enhancing the agent&#x27;s knowledge and responsiveness.</p><p id="1e4937b3-f3d2-80be-abab-d11bc9eb5465" class="">
+</p><h2 id="1e4937b3-f3d2-80c4-a3d1-ca1e2e0a383f" class="">📦 Step 1: Initialize the Project</h2><p id="1e4937b3-f3d2-800f-ae69-fadf3e0cdc26" class="">Start by creating a new Python project using <code>uv</code>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-8021-8875-d35ab0c37bcd" class="code"><code class="language-Bash">uv init agno_project
+cd agno_project</code></pre><p id="1e4937b3-f3d2-803b-a8e6-d3b80253e0c9" class="">This creates:</p><ul id="1e4937b3-f3d2-8078-9420-f48a4f0fb468" class="bulleted-list"><li style="list-style-type:disc"><code>.venv/</code> — virtual environment</li></ul><ul id="1e4937b3-f3d2-8047-9cf2-f4f9db496d7a" class="bulleted-list"><li style="list-style-type:disc"><code>pyproject.toml</code> — dependency and project config file</li></ul><ul id="1e4937b3-f3d2-80bf-81f9-e1ce95ac6934" class="bulleted-list"><li style="list-style-type:disc"></li></ul><p id="1e4937b3-f3d2-8020-8269-fef85f72c05e" class=""><code>uv</code> is a fast, Rust-based Python package manager that integrates the functionalities of <code>pip</code>, <code>virtualenv</code>, and <code>pip-tools</code> for efficient environment and dependency management. It allows you to initialize projects using <code>pyproject.toml</code>, install dependencies with <code>uv add</code>, and manage virtual environments and scripts in a seamless workflow. This makes it an excellent choice for modern Python projects that prioritize speed, simplicity, and reproducibility.</p><p id="1e4937b3-f3d2-80d4-9e97-fc95694c8023" class="">
+</p><p id="1e4937b3-f3d2-80af-b976-e15867e164ce" class=""><code>pyproject.toml</code> is a standardized configuration file for managing Python project metadata, dependencies, and build settings. It centralizes configuration for tools like <code>uv</code>, <code>poetry</code>, and <code>setuptools</code>, making project setup more consistent and reproducible.</p><h2 id="1e4937b3-f3d2-8010-adf2-f99b8c409a17" class="">🛠 Step 2: Add Required Dependencies</h2><p id="1e4937b3-f3d2-8001-8d7b-e6f275226b94" class="">Install packages one by one using <code>uv add</code>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-8026-b08e-cd837a0081e8" class="code"><code class="language-Bash">uv add agno
+uv add duckduckgo-search
+uv add python-dotenv</code></pre><p id="1e4937b3-f3d2-8059-9ff9-de8798e9ed1f" class="">
+</p><p id="1e4937b3-f3d2-8073-8cad-e453c1a08748" class=""><code>uv add</code> simplifies dependency management by automatically installing packages and updating the <code>pyproject.toml</code> file, ensuring consistent project configurations. It streamlines the process of adding, tracking, and managing dependencies in Python projects.</p><p id="1e4937b3-f3d2-80ec-8427-f383abd89e13" class="">
+</p><p id="1e4937b3-f3d2-80f9-b53c-e418f97e9a75" class="">You can now check your <code>pyproject.toml</code>, which should look like this:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-808d-9540-fc73e9dfff9a" class="code"><code class="language-Python">[project]
+name = &quot;agno_project&quot;
+version = &quot;0.1.0&quot;
+dependencies = [
+&quot;agno&quot;,
+&quot;duckduckgo-search&quot;,
+&quot;python-dotenv&quot;
+]
+
+[tool.uv]
+python = &quot;&gt;=3.11&quot;</code></pre><h2 id="1e4937b3-f3d2-8023-ba38-da2fc134aa3e" class="">🔐 Step 3: Create <code>.env</code> File with GROQ API Key</h2><p id="1e4937b3-f3d2-801b-b86a-e1d42c162006" class="">In the project root, create a <code>.env</code> file:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-8091-93ef-d6c57c8665f0" class="code"><code class="language-Bash">touch .env</code></pre><p id="1e4937b3-f3d2-8047-9693-c951de45826c" class="">Add your Groq API key:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-80ea-aab8-df2208457155" class="code"><code class="language-Shell">
+GROQ_API_KEY=your-groq-api-key-here</code></pre><p id="1e4937b3-f3d2-80b9-a32f-f89b3d7db76e" class="">
+</p><p id="1e4937b3-f3d2-80c5-8890-d8f205680beb" class="">GROQ is a powerful API that provides access to advanced machine learning models, such as the Llama models, for various tasks like natural language processing and generation. To use GROQ, you&#x27;ll need an API key, which is required for authentication and to access the service&#x27;s resources. You can obtain the key by signing up on the GROQ platform and following the registration process.</p><h3 id="1e4937b3-f3d2-8026-925e-e68b9ee56f82" class="">📘 How to Get a GROQ API Key</h3><ol type="1" id="1e4937b3-f3d2-80ef-a489-da967777a02d" class="numbered-list" start="1"><li>Go to https://console.groq.com/keys</li></ol><ol type="1" id="1e4937b3-f3d2-801b-b7cb-d08c877dd623" class="numbered-list" start="2"><li>Sign in with your account</li></ol><ol type="1" id="1e4937b3-f3d2-80e8-afd1-fca7b365b0d7" class="numbered-list" start="3"><li>Create a new key and paste it into your <code>.env</code> file</li></ol><h2 id="1e4937b3-f3d2-8035-9e95-c8441c33d331" class="">📂 Step 4: Organize Your Source Code</h2><p id="1e4937b3-f3d2-8026-8484-dced2160014c" class="">Use a clean file structure:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-80a5-a1f5-ea9b59cde2c7" class="code"><code class="language-Bash">agno_project/
+│
+├── .venv/
+├── .env
+├── pyproject.toml
+└── src/
+└── agent_runner.py</code></pre><p id="1e4937b3-f3d2-8038-8357-e4a754d83cf7" class="">Create the <code>src</code> directory:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-808f-ae61-eb17324a8c39" class="code"><code class="language-Bash">mkdir src
+touch src/agent_runner.py</code></pre><h2 id="1e4937b3-f3d2-8063-879a-f359c549ac3c" class="">🧠 Step 5: Create Your News Reporter Agent</h2><p id="1e4937b3-f3d2-8043-9186-c94c08f0f3fd" class="">Paste the following code into <code>src/agent_runner.py</code>:</p><p id="1e4937b3-f3d2-807b-a3f7-df978e837463" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-8067-b601-cb2e71d34c53" class="code"><code class="language-Python">
+import os
+from dotenv import load_dotenv
+
+from agno.agent import Agent
+from agno.models.groq import Groq
+from agno.tools.duckduckgo import DuckDuckGoTools
+
+load_dotenv()  # Loads GROQ_API_KEY from .env
+
+agent = Agent(
+model=Groq(id=&quot;llama-3.3-70b-versatile&quot;, api_key=os.getenv(&quot;GROQ_API_KEY&quot;)),
+description=&quot;You are a Sports news reporter with a flair for Story Telling!&quot;,
+tools=[DuckDuckGoTools()],
+show_tool_calls=True,
+markdown=True,
+)
+
+agent.print_response(
+&quot;Tell me about a breaking news story from the latest Rajasthan vs Gujarat IPL match&quot;,
+stream=True
+)</code></pre><p id="1e4937b3-f3d2-807b-883d-fd89f6effd1a" class="">
+</p><p id="1e4937b3-f3d2-807c-a990-f42e9f12d931" class="">Here’s a breakdown of the code logic and tools used:</p><ul id="1e4937b3-f3d2-80e8-952c-f2442f4857ed" class="bulleted-list"><li style="list-style-type:disc"><code><strong>from agno.agent import Agent</strong></code>:<ul id="1e4937b3-f3d2-8023-a854-cfc480b501ef" class="bulleted-list"><li style="list-style-type:circle">Imports the <code>Agent</code> class from the Agno framework, which is responsible for creating and managing the agent&#x27;s behavior, including interactions with various tools and models.</li></ul></li></ul><ul id="1e4937b3-f3d2-80a8-97e4-e53586d0f6b5" class="bulleted-list"><li style="list-style-type:disc"><code><strong>from agno.models.groq import Groq</strong></code>:<ul id="1e4937b3-f3d2-8009-97da-d5927d9ea19c" class="bulleted-list"><li style="list-style-type:circle">Imports the <code>Groq</code> model, which is a wrapper for integrating the Groq model (in this case, <code>llama-3.3-70b-versatile</code>) into the agent. This model will power the agent&#x27;s language understanding and response generation.</li></ul></li></ul><ul id="1e4937b3-f3d2-8081-98e2-d26118ca9d2e" class="bulleted-list"><li style="list-style-type:disc"><code><strong>from agno.tools.duckduckgo import DuckDuckGoTools</strong></code>:<ul id="1e4937b3-f3d2-8085-a8c9-cc49651adad2" class="bulleted-list"><li style="list-style-type:circle">Imports the <code>DuckDuckGoTools</code> class from Agno, enabling the agent to search the web using DuckDuckGo for real-time information to answer user queries.</li></ul></li></ul><ul id="1e4937b3-f3d2-80f5-832f-cd9c54f80007" class="bulleted-list"><li style="list-style-type:disc"><code><strong>load_dotenv()</strong></code>:<ul id="1e4937b3-f3d2-8014-ac62-c86f32400cde" class="bulleted-list"><li style="list-style-type:circle">Loads environment variables from the <code>.env</code> file into the application. Specifically, it retrieves the <code>GROQ_API_KEY</code>, which is needed to authenticate the Groq model API calls.</li></ul></li></ul><ul id="1e4937b3-f3d2-805b-a0f6-f8c6b894ebc3" class="bulleted-list"><li style="list-style-type:disc"><strong>Creating the </strong><code><strong>Agent</strong></code><strong> object</strong>:<ul id="1e4937b3-f3d2-8085-a547-c6ea81702d6a" class="bulleted-list"><li style="list-style-type:circle">The <code>Agent</code> is initialized with:<ul id="1e4937b3-f3d2-804c-95b9-cf3eff4333d6" class="bulleted-list"><li style="list-style-type:square"><code><strong>model=Groq(id=&quot;llama-3.3-70b-versatile&quot;, api_key=os.getenv(&quot;GROQ_API_KEY&quot;))</strong></code>:<ul id="1e4937b3-f3d2-80b6-bf34-fb146328e009" class="bulleted-list"><li style="list-style-type:disc">Specifies the <code>Groq</code> model to use and provides the API key (retrieved from the environment variables) to authenticate it.</li></ul></li></ul><ul id="1e4937b3-f3d2-80d6-8a3b-df43c348dfb8" class="bulleted-list"><li style="list-style-type:square"><code><strong>description=&quot;You are a Sports news reporter with a flair for Story Telling!&quot;</strong></code>:<ul id="1e4937b3-f3d2-80f2-adf4-e6ae479677d4" class="bulleted-list"><li style="list-style-type:disc">Sets the description of the agent, describing its role and behavior.</li></ul></li></ul><ul id="1e4937b3-f3d2-8079-9297-d3f777f4aa98" class="bulleted-list"><li style="list-style-type:square"><code><strong>tools=[DuckDuckGoTools()]</strong></code>:<ul id="1e4937b3-f3d2-80ab-85a4-ccb217d8eb25" class="bulleted-list"><li style="list-style-type:disc">Assigns the DuckDuckGo search tool to the agent, allowing it to gather live web data when needed to answer user queries.</li></ul></li></ul><ul id="1e4937b3-f3d2-8030-ba0e-d0313c52dd1e" class="bulleted-list"><li style="list-style-type:square"><code><strong>show_tool_calls=True</strong></code>:<ul id="1e4937b3-f3d2-8058-80cb-cb2719655826" class="bulleted-list"><li style="list-style-type:disc">Ensures that the tool calls (such as web searches) are displayed in the agent&#x27;s output, allowing users to track the agent&#x27;s actions.</li></ul></li></ul><ul id="1e4937b3-f3d2-80b2-9ee6-cdb2a5a2fb55" class="bulleted-list"><li style="list-style-type:square"><code><strong>markdown=True</strong></code>:<ul id="1e4937b3-f3d2-8046-ba87-c2b0cd7b0874" class="bulleted-list"><li style="list-style-type:disc">Enables markdown formatting for the agent’s responses, which will improve the readability of the output.</li></ul></li></ul></li></ul></li></ul><ul id="1e4937b3-f3d2-80ba-8085-f6e9cea78082" class="bulleted-list"><li style="list-style-type:disc"><code><strong>agent.print_response()</strong></code>:<ul id="1e4937b3-f3d2-806d-b1a0-cb3a79169d6b" class="bulleted-list"><li style="list-style-type:circle">The agent is prompted to respond to a user query, in this case, requesting details about a &quot;breaking news story&quot; related to the &quot;latest Rajasthan vs Gujarat IPL match&quot;.</li></ul><ul id="1e4937b3-f3d2-8028-9e03-e60e0594ef78" class="bulleted-list"><li style="list-style-type:circle"><code><strong>stream=True</strong></code>:<ul id="1e4937b3-f3d2-8078-aa36-cd2f6507230d" class="bulleted-list"><li style="list-style-type:square">Enables streaming output, meaning the agent will begin showing the response incrementally as it processes the query. This is useful for real-time responses in dynamic applications.</li></ul></li></ul></li></ul><h2 id="1e4937b3-f3d2-80d5-b287-ec6a6ff1dbc7" class="">▶️ Step 6: Run the Agent</h2><p id="1e4937b3-f3d2-80e7-a19f-c96874728721" class="">From your project root, run the agent using:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e4937b3-f3d2-805f-ae9b-eac809fba38e" class="code"><code class="language-Bash">uv run python src/agent_runner.py</code></pre><h2 id="1e4937b3-f3d2-8051-b738-c0d662ba83b7" class="">🔚 Conclusion</h2><p id="1e4937b3-f3d2-802a-ab34-cbc1e75fe85f" class="">You&#x27;ve now set up an <strong>LLM-powered agentic app</strong> with <strong>real-time web search capabilities</strong> using Groq and Agno—all organized efficiently with <code>uv</code>.</p><ul id="1e4937b3-f3d2-8053-acc0-f07d1c2f1a63" class="bulleted-list"><li style="list-style-type:disc"><strong>Built an LLM-powered agentic app</strong>: You integrated Groq and Agno to create an intelligent agent with real-time web search capabilities.</li></ul><ul id="1e4937b3-f3d2-80b8-9432-cfa290c26ee9" class="bulleted-list"><li style="list-style-type:disc"><strong>Streamlined environment and dependency management</strong>: By using <code>uv</code>, you efficiently organized your project, managed dependencies, and configured environments.</li></ul><ul id="1e4937b3-f3d2-804f-89c8-fb68b8aa16c8" class="bulleted-list"><li style="list-style-type:disc"><strong>API integration</strong>: You learned how to securely handle and use an API key to integrate with the GROQ platform, enabling access to powerful machine learning models.</li></ul><ul id="1e4937b3-f3d2-80c2-b813-f226a7be9a6f" class="bulleted-list"><li style="list-style-type:disc"><strong>Real-time web interaction</strong>: You set up an agent that can fetch dynamic information from the web, enhancing its ability to interact with live data sources.</li></ul><ul id="1e4937b3-f3d2-8075-9131-d21c5fe462d5" class="bulleted-list"><li style="list-style-type:disc"><strong>Project organization and workflow optimization</strong>: You gained hands-on experience in structuring and managing a Python project with <code>uv</code>, improving your development workflow.</li></ul><p id="1e4937b3-f3d2-8014-82ba-f821cc7849a1" class="">These steps collectively empower you to build advanced, autonomous applications with ease.</p><p id="1e4937b3-f3d2-80ce-81ff-e264b0065e98" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
