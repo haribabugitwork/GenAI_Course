@@ -83,8 +83,3 @@ It uses:
 The agent responds with live-sourced summaries in an engaging tone.
 
 ---
-
-## 📜 License
-
-MIT License  
-Maintained by [@haribabugitwork](https://github.com/haribabugitwork)
