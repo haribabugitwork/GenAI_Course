@@ -1,0 +1,27 @@
+[project]
+name = "pdf-summarizer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.12",
+    "google-generativeai>=0.8.5",
+    "pydantic>=2.11.5",
+    "pypdf2>=3.0.1",
+    "python-dotenv>=1.1.0",
+    "python-multipart>=0.0.20",
+    "reportlab>=4.4.1",
+    "uvicorn>=0.34.3",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=8.4.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "client",
+]
