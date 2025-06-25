@@ -1,0 +1,14 @@
+# Ignore virtual environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.log
+*.env
+.env.*
+.DS_Store
+.git/
+node_modules/

@@ -1,0 +1,57 @@
+
+services:
+  # Nginx Load Balancer
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    networks:
+      - app-network
+
+  # Backend Services (3 instances)
+  backend1:
+    build: ./backend
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - /tmp:/tmp
+    networks:
+      - app-network
+
+  backend2:
+    build: ./backend
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - /tmp:/tmp
+    networks:
+      - app-network
+
+  backend3:
+    build: ./backend
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - /tmp:/tmp
+    networks:
+      - app-network
+
+  # Streamlit Client
+  client:
+    build: ./client
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://nginx:80
+    depends_on:
+      - nginx
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
